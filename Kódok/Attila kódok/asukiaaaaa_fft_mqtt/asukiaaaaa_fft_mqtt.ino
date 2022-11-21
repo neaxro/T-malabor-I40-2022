@@ -2,7 +2,7 @@
 #include <Wire.h>              //biult in library to use iic
 #include <PubSubClient.h>      //MQTT lib (https://github.com/knolleary/pubsubclient)
 #include <arduinoFFT.h>        //FFT lib (https://github.com/kosme/arduinoFFT) 
-#include "MPU9250.h"           //MPU9260 sensor lib (https://github.com/hideakitai/MPU9250)
+#include <MPU9250_asukiaaa.h>  //MPU9260 sensor lib (https://github.com/hideakitai/MPU9250)
 
 //######################################|MEASURMENT SETTINGS|####################################################################################
 
@@ -42,38 +42,29 @@ PubSubClient client(espClient);         // for MQTT connection set up
 //##############################################################################################################################################
 
 
-
 //####################################|MPU9250 settings|########################################################################################
 
 //---------------------------------------|Can be setted|----------------------------------------------------------------------------------------
 #define SDA_PIN 23                    //SET: the pin number where the iic sda is located
 #define SCK_PIN 18                    //SET: the pin number where the iic sck is located
-#define MPU_ADDRESS 0x68              //SET: the mpu9250 factory slave number, (0x68 is low, 0x67 is high)
 
 //---------------------------------------|Should not change|------------------------------------------------------------------------------------
-MPU9250 mpu9250;                      // create an mpu9250 object
-MPU9250Setting setting;               // create an setting object for mpu9250
+MPU9250_asukiaaa mpu9250;              //create an mpu9250 object
 //##############################################################################################################################################
 
 void setup() {
   Serial.begin(115200);
 
   //set up iic
-  Wire.begin(SDA_PIN,SCK_PIN);
-
-  //calibrate mpu9250
-  setting.accel_fs_sel = ACCEL_FS_SEL::A2G;
-  setting.fifo_sample_rate = FIFO_SAMPLE_RATE::SMPL_1000HZ;
-  setting.accel_fchoice = 0x01;
-  setting.accel_dlpf_cfg = ACCEL_DLPF_CFG::DLPF_45HZ;
+  Wire.begin(SDA_PIN, SCK_PIN);
 
   //set up mpu9250
-  mpu9250.setup(MPU_ADDRESS, setting, Wire);
-  mpu9250.calibrateAccelGyro();
+  mpu9250.setWire(&Wire);
+  mpu9250.beginAccel();
 
-  //set up Wifi contection
+  //set up Wifi connection
   connectToWiFi();
-
+  
   //set up MQTT connection
   client.setServer(mqttServer, MQTT_PORT);
 
@@ -100,12 +91,9 @@ void fft(){
   //collecting datas
   if(nextSapleIndex < SAMPLE_QUANTITY){
     //update sensor data
-    mpu9250.update_accel_gyro();
-    
-    double x = mpu9250.getAccX();
-    double y = mpu9250.getAccY();
-    double z = mpu9250.getAccZ();
-    samples_Re[nextSapleIndex] = sqrt(x*x + y*y + z*z);
+    mpu9250.accelUpdate();
+
+    samples_Re[nextSapleIndex] = mpu9250.accelSqrt();
     samples_Im[nextSapleIndex++] = 0.0;
   }
   //process datas
@@ -120,8 +108,8 @@ void fft(){
     FFT.Windowing(samples_Re, SAMPLE_QUANTITY, FFT_WIN_TYP_RECTANGLE, FFT_FORWARD);
     FFT.Compute(samples_Re, samples_Im, SAMPLE_QUANTITY, FFT_FORWARD);
     FFT.ComplexToMagnitude(samples_Re, samples_Im, SAMPLE_QUANTITY);
-
-
+    
+    
     unsigned long FFTime = micros()-beforeFFT;
     Serial.println("***FFT ALGORTIHM TIME*** " + String(FFTime));
 
@@ -130,7 +118,7 @@ void fft(){
     int sampling_feq = 4096.0 / CollectTimeInSec;             // result is around 5300Hz
 
     // collect the highest peaks
-    MajorPeaks(samples_Re, SAMPLE_QUANTITY, sampling_feq, results_Hz);
+    MajorPeaks(samples_Re, SAMPLE_QUANTITY, sampling_feq, results_Hz); //5300 =>  4096 / collecting futas ideje sec-ben
 
     //sending to MQTT server
     sendMajorPeaks();
