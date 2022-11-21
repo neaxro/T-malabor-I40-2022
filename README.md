@@ -133,3 +133,11 @@ Ez a legelső, kezdeti mérés volt még csak egy fázisra de már itt is szépe
 
 ![image-20221121155011583](C:\Users\neaxr\AppData\Roaming\Typora\typora-user-images\image-20221121155011583.png)
 
+Ez a hajszárító mérése ugyan úgy csak egy fázis lett mérve. Kicsit csúnya a jel de ez a Device Monitoring Studio hibája. Sajnos nem megbízható eszköz...
+
+![image-20221121155655740](C:\Users\neaxr\AppData\Roaming\Typora\typora-user-images\image-20221121155655740.png)
+
+Ez pedig a végleges mérés amit egy vízforralón végeztem el, most már mind a három fázisra. Szépen látható ahogy két fázis (kék, zöld) egymást váltják míg a harmadik, sárga színű fázis nulla közelben marad hiszen az a föld.
+
+Ez a mérés tetszett a legjobban mert kevés baj volt vele és mert itt tanultam a legtöbbet az áramméréssel kapcsolatban. Nem mellesleg nagyon szép grafikonokat lehetett készíteni.
+
