@@ -8,7 +8,7 @@
 //-------------------------------------------|Can be setted|-------------------------------------------------------------------------------------
 #define SAMPLE_QUANTITY 4096            //sample quantity, must be power of 2
 #define RESULT_QUANTITY 20              //SET: how many of the highest peaks from fft result you want
-#define MICRO_PIN 36                  //SET: to the pin number where the microfon analog input is
+#define MICRO_PIN 36                    //SET: to the pin number where the microfon analog input is
 
 //------------------------------------------|Should not change|----------------------------------------------------------------------------------
 double samples_Re[SAMPLE_QUANTITY];     // collected data real part by the sensor 
@@ -100,7 +100,7 @@ void fft(){
     int sampling_feq = 4096.0 / CollectTimeInSec;           // result is around 5300Hz
 
     // collect the highest peaks
-    MajorPeaks(samples_Re, SAMPLE_QUANTITY, sampling_feq, results_Hz); //5300 =>  4096 / fft futas ideje sec-ben
+    MajorPeaks(samples_Re, SAMPLE_QUANTITY, sampling_feq, results_Hz);
 
     //sending to MQTT server
     sendMajorPeaks();
@@ -112,7 +112,6 @@ void fft(){
 }
 
 void sendMajorPeaks(){
-  
   //sending peaks for mqtt server
   for(int i = 0; i < RESULT_QUANTITY; i++){
     //set up the message
