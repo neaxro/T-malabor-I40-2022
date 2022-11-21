@@ -1,99 +1,149 @@
-#include <WiFi.h>
-#include <PubSubClient.h>
-#include <arduinoFFT.h>
-#include <Wire.h>
+#include <WiFi.h>              //built in library to cconnect via Wifi
+#include <Wire.h>              //biult in library to use iic
+#include <PubSubClient.h>      //MQTT lib (https://github.com/knolleary/pubsubclient)
+#include <arduinoFFT.h>        //FFT lib (https://github.com/kosme/arduinoFFT) 
+
+//######################################|MEASURMENT SETTINGS|####################################################################################
+
+//-------------------------------------------|Can be setted|-------------------------------------------------------------------------------------
+#define SAMPLE_QUANTITY 4096            //sample quantity, must be power of 2
+#define RESULT_QUANTITY 20              //SET: how many of the highest peaks from fft result you want
+#define MICRO_PIN 36                  //SET: to the pin number where the microfon analog input is
+
+//------------------------------------------|Should not change|----------------------------------------------------------------------------------
+double samples_Re[SAMPLE_QUANTITY];     // collected data real part by the sensor 
+double samples_Im[SAMPLE_QUANTITY];     // collected data imaginary part by the sensor 
+int results_Hz[RESULT_QUANTITY];        // will contain the major herz peaks from fft
+int results_Ampl[RESULT_QUANTITY];      // will contain the major herz amplitudos from fft
+int nextSapleIndex = 0;                 // assistant: where to put the next collected sensor data
+unsigned long beforeCollection;         // assistant: for calculate the collection time
+unsigned long beforeFFT;                // assistant: for caculate the fft running time
+
+arduinoFFT FFT = arduinoFFT();          // FTT set up
+//##############################################################################################################################################
 
 
-#define SAMPLE_QUANTITY 4096  
-#define RESULT_QUANTITY 20
-#define MESSAGE_LENGTH 20
+//######################################|MQTT CONNECTION SET|###################################################################################
 
-const int microphonPin = 36;
+//--------------------------------------|Can be setted|-----------------------------------------------------------------------------------------
+#define MIC_TOPIC "topic/microphon"     //SET: to the topic where MQTT server will publish
 
-IPAddress mqttServer(192,168,43,74);    //mqtt server ip address
-const char* SSID = "Nemes";             //wifi name
-const char* PWD = "nincsen123";         //wifi password
-WiFiClient espClient;
-PubSubClient client(espClient);
+IPAddress mqttServer(192,168,43,74);    //SET: to the mqtt server ip address
+const char* SSID = "Nemes";             //SET: to the wifi name
+const char* PWD = "nincsen123";         //SET: to the wifi password
 
-double samples_Re[SAMPLE_QUANTITY];     // collected results real part by the sensor 
-double samples_Im[SAMPLE_QUANTITY];     // imaginary part
-int nextSapleIndex = 0;
-arduinoFFT FFT = arduinoFFT();          // FTT
-unsigned long beforeCollection;
-unsigned long beforeFFT;
-char msg_out[MESSAGE_LENGTH];   //adatok publikalasahoz
+//--------------------------------------|Should not change|-------------------------------------------------------------------------------------
+#define MQTT_PORT 1883                   // will need for MQTT connection port set 
+
+String msg_out;                          // for publishing data via MQTT
+WiFiClient espClient;                   // for Wifi set up
+PubSubClient client(espClient);         // for MQTT connection set up
+//##############################################################################################################################################
+
 
 void setup() {
   Serial.begin(115200);
 
   while(!Serial);
-   Serial.println("Ready");
+   delay(20);
 
+  //Wifi connection set up
   connectToWiFi();
-  client.setServer(mqttServer, 1883);
+
+  //MQTT connection set up
+  client.setServer(mqttServer, MQTT_PORT);
+
+  //set for next collecting
   beforeCollection = micros();
 }
 
 void loop() {
+  //checking for Wifi connection loss
   WiFi.mode(WIFI_STA);
   if (!client.connected())
     reconnect();
 
+  //checking for MQTT connection loss
   client.loop();
 
+  //data collection or fft calculation and result send
   fft();
 }
 
+//#############################################|Assistant functions for data process|############################################################
+
 void fft(){
-  
+  //collecting datas
   if(nextSapleIndex < SAMPLE_QUANTITY){
-    samples_Re[nextSapleIndex] = analogRead(microphonPin);
+    samples_Re[nextSapleIndex] = analogRead(MICRO_PIN);
     samples_Im[nextSapleIndex++] = 0.0;
   }
+  //process datas
   else{
-    Serial.println("***COLLECTING TIME*** " + String(micros()-beforeCollection));
+    unsigned long CollectingTime = micros()-beforeCollection;
+    double CollectingTimeD = CollectingTime;
 
-    beforeFFT = micros();
+    Serial.println("***COLLECTING TIME*** " + String(CollectingTime));
+    beforeFFT = micros(); //just good to know the fft calculation time
 
     //FFT calculation
     FFT.Windowing(samples_Re, SAMPLE_QUANTITY, FFT_WIN_TYP_RECTANGLE, FFT_FORWARD);
     FFT.Compute(samples_Re, samples_Im, SAMPLE_QUANTITY, FFT_FORWARD);
     FFT.ComplexToMagnitude(samples_Re, samples_Im, SAMPLE_QUANTITY);
+
+
     unsigned long FFTime = micros()-beforeFFT;
     Serial.println("***FFT ALGORTIHM TIME*** " + String(FFTime));
 
-    //sampling frequenxócy calc
-    //double FFTTimeInSec = FFTTime / 1000000;
-    //int sampling_feq = SAMPLE_QUANTITY / FFTTimeInSec; // => around 5300
+    //sampling frequency calculation
+    double CollectTimeInSec = CollectingTimeD / 1000000.0;  // convert to secundum
+    int sampling_feq = 4096.0 / CollectTimeInSec;           // result is around 5300Hz
 
     // collect the highest peaks
-    int results[RESULT_QUANTITY];
-    MajorPeaks(samples_Re, SAMPLE_QUANTITY, 5300, results); //5300 =>  4096 / fft futas ideje sec-ben
+    MajorPeaks(samples_Re, SAMPLE_QUANTITY, sampling_feq, results_Hz); //5300 =>  4096 / fft futas ideje sec-ben
 
-    //sending peaks for mqtt server
-    for(int i = 0; i < RESULT_QUANTITY; i++){
-      Serial.print("Freq: "); 
-      Serial.print(results[i]); 
+    //sending to MQTT server
+    sendMajorPeaks();
 
-      if (! client.publish("topic/microphon", dtostrf(results[i], MESSAGE_LENGTH - 3, 3, msg_out))) {
-        Serial.println("Failed");
-      } else {
-        Serial.println("OK!");
-      }
-    }
-
+    //set up for the next collecting
     nextSapleIndex = 0;
     beforeCollection = micros();
   }
 }
 
+void sendMajorPeaks(){
+  
+  //sending peaks for mqtt server
+  for(int i = 0; i < RESULT_QUANTITY; i++){
+    //set up the message
+    if(i == 0){
+      msg_out = "[" + String(results_Hz[i]) + ":" + String(results_Ampl[i]) + ", ";
+    }
+    else if(i == RESULT_QUANTITY-1 && RESULT_QUANTITY != 1){
+      msg_out = String(results_Hz[i]) + ":" + String(results_Ampl[i]) + "]";
+    }
+    else{
+      msg_out = String(results_Hz[i]) + ":" + String(results_Ampl[i]) + ", ";
+    }
+
+    //sending the message
+    if (! client.publish(MIC_TOPIC, msg_out.c_str())) {
+      Serial.println("Failed");
+    } else {
+      Serial.println("OK!");
+    }
+  }
+}
+
+//-----------------------------------------rework of the arduinoFFT.cpp MajorPeak function-------------------------------------------------------
+//from collecting only the major peak to collect given number major peaks
 void MajorPeaks(double *vD, uint16_t samples, double samplingFrequency, int *peaks)
 {
   int peaksYIndex[RESULT_QUANTITY];
   for(int k = 0; k < RESULT_QUANTITY; k++){
     peaksYIndex[k] = -1;
     peaks[k] = 0;
+    results_Ampl[k] = 0;
   }
 
 	for(int ind = 0; ind < RESULT_QUANTITY; ind++){
@@ -122,8 +172,12 @@ void MajorPeaks(double *vD, uint16_t samples, double samplingFrequency, int *pea
     // returned value: interpolated frequency peak apex
     peaksYIndex[ind] = IndexOfMaxY;
     peaks[ind] = interpolatedX;
+    results_Ampl[ind] = vD[IndexOfMaxY] / SAMPLE_QUANTITY;
   }
 }
+//################################################################################################################################################
+
+//##########################################|Assistant functions for Wifi and MQTT connection|####################################################
 
 void connectToWiFi() {
   Serial.print("Connecting to ");
@@ -149,7 +203,7 @@ void reconnect() {
     if (client.connect("ESP32Client")) {
       Serial.println("connected");
       // Subscribe
-      client.subscribe("topic/mpu9250");
+      client.subscribe(MIC_TOPIC);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -161,7 +215,7 @@ void reconnect() {
   }
 }
 
-//giving orders via mqtt -> do not need now
+//giving orders via mqtt -> does not need now
 void callback(char* topic, byte* message, unsigned int length) {
   Serial.print("Message arrived on topic: ");
   Serial.print(topic);
@@ -174,3 +228,4 @@ void callback(char* topic, byte* message, unsigned int length) {
   }
   Serial.println();
 }
+//################################################################################################################################################
