@@ -3,6 +3,7 @@
 #include <arduinoFFT.h>
 #include <Wire.h>
 
+
 #define SAMPLE_QUANTITY 4096  
 #define RESULT_QUANTITY 20
 #define MESSAGE_LENGTH 20
