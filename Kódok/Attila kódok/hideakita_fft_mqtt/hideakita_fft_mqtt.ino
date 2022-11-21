@@ -8,13 +8,13 @@
 
 //-------------------------------------------|Can be setted|-------------------------------------------------------------------------------------
 #define SAMPLE_QUANTITY 4096            //sample quantity, must be power of 2
-#define RESULT_QUANTITY 20              //SET: how many of the highest peaks from fft result you want
+#define RESULT_QUANTITY 5               //SET: how many of the highest peaks from fft result you want
 
 //------------------------------------------|Should not change|----------------------------------------------------------------------------------
 double samples_Re[SAMPLE_QUANTITY];     // collected data real part by the sensor 
 double samples_Im[SAMPLE_QUANTITY];     // collected data imaginary part by the sensor 
 int results_Hz[RESULT_QUANTITY];        // will contain the major herz peaks from fft
-int results_Ampl[RESULT_QUANTITY];      // will contain the major herz amplitudos from fft
+double results_Ampl[RESULT_QUANTITY];   // will contain the major herz amplitudos from fft
 int nextSapleIndex = 0;                 // assistant: where to put the next collected sensor data
 unsigned long beforeCollection;         // assistant: for calculate the collection time
 unsigned long beforeFFT;                // assistant: for caculate the fft running time
@@ -62,10 +62,10 @@ void setup() {
   Wire.begin(SDA_PIN,SCK_PIN);
 
   //calibrate mpu9250
-  setting.accel_fs_sel = ACCEL_FS_SEL::A2G;
-  setting.fifo_sample_rate = FIFO_SAMPLE_RATE::SMPL_1000HZ;
+  setting.accel_fs_sel = ACCEL_FS_SEL::A16G;
+  setting.fifo_sample_rate = FIFO_SAMPLE_RATE::SMPL_125HZ;
   setting.accel_fchoice = 0x01;
-  setting.accel_dlpf_cfg = ACCEL_DLPF_CFG::DLPF_45HZ;
+  setting.accel_dlpf_cfg = ACCEL_DLPF_CFG::DLPF_420HZ;
 
   //set up mpu9250
   mpu9250.setup(MPU_ADDRESS, setting, Wire);
@@ -149,18 +149,18 @@ void sendMajorPeaks(){
       msg_out = "[" + String(results_Hz[i]) + ":" + String(results_Ampl[i]) + ", ";
     }
     else if(i == RESULT_QUANTITY-1 && RESULT_QUANTITY != 1){
-      msg_out = String(results_Hz[i]) + ":" + String(results_Ampl[i]) + "]";
+      msg_out = msg_out + String(results_Hz[i]) + ":" + String(results_Ampl[i]) + "]";
     }
     else{
-      msg_out = String(results_Hz[i]) + ":" + String(results_Ampl[i]) + ", ";
+      msg_out = msg_out + String(results_Hz[i]) + ":" + String(results_Ampl[i]) + ", ";
     }
+  }
 
-    //sending the message
-    if (! client.publish(MPU_TOPIC, msg_out.c_str())) {
-      Serial.println("Failed");
-    } else {
-      Serial.println("OK!");
-    }
+  //sending the message
+  if (! client.publish(MPU_TOPIC, msg_out.c_str())) {
+    Serial.println("Failed");
+  } else {
+    Serial.println("OK!");
   }
 }
 
