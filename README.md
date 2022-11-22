@@ -15,6 +15,7 @@ TODO: Milyen összeköttetések vannak, színek szerint, stb...
 ### MLX90614
 
 Használt könyvtár: [Adafruit_MLX90614](https://github.com/adafruit/Adafruit-MLX90614-Library)
+
 [Dokumentáció](http://adafruit.github.io/Adafruit-MLX90614-Library/html/class_adafruit___m_l_x90614.html) hozzá.
 
 #### Előnyök
@@ -51,6 +52,10 @@ Használt könyvtár: [Adafruit_MLX90614](https://github.com/adafruit/Adafruit-M
 Házilag készített mérő berendezés. Mind a három fázis mérésére alkalmas.
 
 ![Árammérő kapcsolási rajza](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/arammero_diagram.png)
+
+A képen látható **mérhető feszültség**ből 3 darab van, minden fázisnak 1-1 db. Ezeket anaolg lehet olvasni, hogy mekkora feszültség van rajta és abból könnyen vissza lehet számolni. Az 1.65V-os kimenet nem mindig pontosan ennyi (nekem kb. 1.49V-1.55V között mozgott). Ezt is érdemes mérni és ezzel korrigálni a mérést.
+
+A fentebb látható diagrammoknál lehet részletesebben látni, hogy melyik színű kábel pontosan mit is jelent.
 
 ### ESP-k
 
