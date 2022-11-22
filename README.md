@@ -79,7 +79,7 @@ Első nehézség abban volt hogy az előre elkészített fordulatszám mérő be
 
 A mérést egy opto kapu segítségével oldottam meg. Ami nagyjából így néz ki.
 
-![Átlagos optokapu](.\Képek\optokapu.jpg)
+![Átlagos optokapu](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/optokapu.jpg)
 
 Működési elve, hogy a rés között fény halad. Egyik irányból kibocsátja, másik irányból érzékeli azt. Feszültség változással tudja jelezni, azt ha képes mérni a fényt azaz nem gátolja semmi a fény terjedését illetve azt is ha valami gátolja a terjedést. Ehhez egy tárcsát használtam amin előre meghatározva, egyenlő távolságban 6 darab lyuk van rajta. Ezeknél a lyukaknál fog érzékelni a kapu. Két érzékelési idő közötti idővel pedig vissza lehet számolni a sebességet azaz az RPM-et amire kíváncsiak vagyunk.
 
@@ -127,15 +127,15 @@ Arduino IDE-ben nem lehet soros monitorról rendesen másolni így más megoldá
 
 Miután mértem adatokat a következő grafikonok születtek meg:
 
-![Árammérő első mérés](Képek\arammero_1.png)
+![Árammérő első mérés](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/arammero_1.png)
 
 Ez a legelső, kezdeti mérés volt még csak egy fázisra de már itt is szépen kirajzolódik a szinusz görbe.
 
-![Árammérő második mérés](Képek\arammero_2.png)
+![Árammérő második mérés](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/arammero_2.png)
 
 Ez a hajszárító mérése ugyan úgy csak egy fázis lett mérve. Kicsit csúnya a jel de ez a Device Monitoring Studio hibája. Sajnos nem megbízható eszköz...
 
-![Árammérő harmadik mérés](Képek\arammero_3.png)
+![Árammérő harmadik mérés](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/arammero_3.png)
 
 Ez pedig a végleges mérés amit egy vízforralón végeztem el, most már mind a három fázisra. Szépen látható ahogy két fázis (kék, zöld) egymást váltják míg a harmadik, sárga színű fázis nulla közelben marad hiszen az a föld.
 
