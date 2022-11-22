@@ -50,6 +50,8 @@ Használt könyvtár: [Adafruit_MLX90614](https://github.com/adafruit/Adafruit-M
 
 Házilag készített mérő berendezés. Mind a három fázis mérésére alkalmas.
 
+![Árammérő kapcsolási rajza]()
+
 ### ESP-k
 
 #### ESP-32
