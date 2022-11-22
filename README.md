@@ -79,7 +79,7 @@ Első nehézség abban volt hogy az előre elkészített fordulatszám mérő be
 
 A mérést egy opto kapu segítségével oldottam meg. Ami nagyjából így néz ki.
 
-![Átlagos optokapu](Képek\optokapu.jpg)
+![Átlagos optokapu](.\Képek\optokapu.jpg)
 
 Működési elve, hogy a rés között fény halad. Egyik irányból kibocsátja, másik irányból érzékeli azt. Feszültség változással tudja jelezni, azt ha képes mérni a fényt azaz nem gátolja semmi a fény terjedését illetve azt is ha valami gátolja a terjedést. Ehhez egy tárcsát használtam amin előre meghatározva, egyenlő távolságban 6 darab lyuk van rajta. Ezeknél a lyukaknál fog érzékelni a kapu. Két érzékelési idő közötti idővel pedig vissza lehet számolni a sebességet azaz az RPM-et amire kíváncsiak vagyunk.
 
