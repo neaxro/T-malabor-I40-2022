@@ -79,7 +79,7 @@ Első nehézség abban volt hogy az előre elkészített fordulatszám mérő be
 
 A mérést egy opto kapu segítségével oldottam meg. Ami nagyjából így néz ki.
 
-![OPTICAL SWITCH 4p. (opto kapu) OPB610](https://d25vv4z8gtre3w.cloudfront.net/kepek/22/OPB610.jpg)
+![Átlagos optokapu](Képek\optokapu.jpg)
 
 Működési elve, hogy a rés között fény halad. Egyik irányból kibocsátja, másik irányból érzékeli azt. Feszültség változással tudja jelezni, azt ha képes mérni a fényt azaz nem gátolja semmi a fény terjedését illetve azt is ha valami gátolja a terjedést. Ehhez egy tárcsát használtam amin előre meghatározva, egyenlő távolságban 6 darab lyuk van rajta. Ezeknél a lyukaknál fog érzékelni a kapu. Két érzékelési idő közötti idővel pedig vissza lehet számolni a sebességet azaz az RPM-et amire kíváncsiak vagyunk.
 
@@ -127,15 +127,15 @@ Arduino IDE-ben nem lehet soros monitorról rendesen másolni így más megoldá
 
 Miután mértem adatokat a következő grafikonok születtek meg:
 
-![image-20221121154926025](C:\Users\neaxr\AppData\Roaming\Typora\typora-user-images\image-20221121154926025.png)
+![Árammérő első mérés](Képek\arammero_1.png)
 
 Ez a legelső, kezdeti mérés volt még csak egy fázisra de már itt is szépen kirajzolódik a szinusz görbe.
 
-![image-20221121155011583](C:\Users\neaxr\AppData\Roaming\Typora\typora-user-images\image-20221121155011583.png)
+![Árammérő második mérés](Képek\arammero_2.png)
 
 Ez a hajszárító mérése ugyan úgy csak egy fázis lett mérve. Kicsit csúnya a jel de ez a Device Monitoring Studio hibája. Sajnos nem megbízható eszköz...
 
-![image-20221121155655740](C:\Users\neaxr\AppData\Roaming\Typora\typora-user-images\image-20221121155655740.png)
+![Árammérő harmadik mérés](Képek\arammero_3.png)
 
 Ez pedig a végleges mérés amit egy vízforralón végeztem el, most már mind a három fázisra. Szépen látható ahogy két fázis (kék, zöld) egymást váltják míg a harmadik, sárga színű fázis nulla közelben marad hiszen az a föld.
 
