@@ -2,27 +2,53 @@
 
 ## Bevezető
 
+**Feladatot elvégezték**: Nemes Attila, Nemes Axel Roland
+
+**Konzulens**: Kovács László
+
 ## Wiring Diagram
 
 TODO: Milyen összeköttetések vannak, színek szerint, stb...
 
 ## Szenzorok
 
-### Példa szenzor
+### MLX90614
 
-**Library link ha kell hozzá:** *link helye*
+Használt könyvtár: [Adafruit_MLX90614](https://github.com/adafruit/Adafruit-MLX90614-Library)
+[Dokumentáció](http://adafruit.github.io/Adafruit-MLX90614-Library/html/class_adafruit___m_l_x90614.html) hozzá.
 
 #### Előnyök
 
-- Valami
+- Kontaktmentes hőmérséklte mérés
+- Celsiust és Fahrenheitot is képes mérni
+- Kifejezetten pontos
 
 #### Hátrányok
 
-- Valami
+- Nem tapasztaltam
 
 #### Tapasztalat
 
-- Egyszerű volt használni
+- Egyszerű volt használni a könyvtárral.
+
+### Fordulatszám mérő (Opto kapu)
+
+#### Előnyök
+
+- Nem kellett külön könyvtárat használni hozzá
+- Interrupt függvénnyel megbízható, helyes eredményt ad
+
+#### Hátrányok
+
+- Nem tapasztaltam
+
+#### Megjegyzés
+
+Érdemes interrupt megoldással figyelni azt, hogy jelez-e a szenzor így nem/nehezen lehet lemaradni egy-egy jelzésről.
+
+### Árammérő
+
+Házilag készített mérő berendezés. Mind a három fázis mérésére alkalmas.
 
 ### ESP-k
 
@@ -41,6 +67,18 @@ Librarby hozzá
 EN/BOOT button
 
 Arduino IDE board config leírása
+
+## Egyéb könyvtárak
+
+### MQTT Kliens
+
+Használt könytár: [EspMQTTClient](https://github.com/plapointe6/EspMQTTClient)
+Az **Axi** féle kódokban ez volt használva. Könnyű a használata, hatékony és eléggé jó dokumentáció tartozik hozzá.
+
+### Szenzorokkal egyszerű kommunikáció (I2C)
+
+Használt könyvtár: [Wire](https://www.arduino.cc/reference/en/language/functions/communication/wire/)
+Néhány esetben ez könnyebé tette egy-egy szenzor elérését I2C-n keresztül.
 
 ## Attila Tapasztalatok
 
@@ -121,9 +159,7 @@ A programból is látszódik, hogy vissza kellett számolni a feszültséget miv
 #### Adatok gyűjtése
 
 Egyszerűnek hangzik de sajnos mégsem az. A baj az, hogy a mért adatokat amiket a soros portról olvasunk azokat kéne átmésolni excel-ben, hogy maradandó grafikont készíthessünk. (Persze lehetne soros plotterről is de az nagyon kiszámíthatatlanul képes ugrálni).
-Arduino IDE-ben nem lehet soros monitorról rendesen másolni így más megoldást kellett választanom. A [Device Monitoring Studio](https://hhdsoftwaredocs.online/dms/introduction/overview.html)t választottam. Ingyenes viszont cserébe 10 napos próba verziót kapunk. Erre a kis, gyors mérésre viszont ez tökéletes.
-
-## TODO: Device Monitoring Studio tutorial
+Arduino IDE-ben nem lehet soros monitorról rendesen másolni így más megoldást kellett választanom. A [Device Monitoring Studio](https://hhdsoftwaredocs.online/dms/introduction/overview.html)t választottam. Ingyenes viszont cserébe 10 napos próba verziót kapunk. Erre a kis, gyors mérésre viszont ez tökéletes. (Az arduino értékeit legegyszerűbben a **Console View**/**Consol View (legacy)** típusú monitoring móddal lehet kimásolni).
 
 Miután mértem adatokat a következő grafikonok születtek meg:
 
