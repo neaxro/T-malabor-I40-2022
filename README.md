@@ -6,11 +6,11 @@
 
 **Konzulens**: Kovács László
 
-## Wiring Diagram
+## <center>Wiring Diagram</center>
 
 TODO: Milyen összeköttetések vannak, színek szerint, stb...
 
-## Szenzorok
+## <center>Szenzorok</center>
 
 ### MLX90614
 
@@ -33,7 +33,6 @@ Használt könyvtár: [Adafruit_MLX90614](https://github.com/adafruit/Adafruit-M
 - Egyszerű volt használni a könyvtárral.
 
 ### Fordulatszám mérő (Opto kapu)
-
 #### Előnyök
 
 - Nem kellett külön könyvtárat használni hozzá
@@ -57,30 +56,65 @@ A képen látható **mérhető feszültség**ből 3 darab van, minden fázisnak 
 
 A fentebb látható diagrammoknál lehet részletesebben látni, hogy melyik színű kábel pontosan mit is jelent.
 
-### ESP-k
+### MPU-9250
 
-#### ESP-32
+#### Előnyök
+  - Tartalmaz gyorsulásmérőt
+  - A gyorsulásmérő 4000Hz-es mintavételezésre is képes
+  - i2c és SPI kommunikáció is lehetséges
+  - Sok könyvtár található hozzá
+#### Hátrányok
+  - Nem tapasztaltam
 
-Librarby hozzá
+#### Tapasztalatok
+Három különböző könyvtárat is kipróbltam, és mindegyikről más-más véleményem lett:
+  - [<u>asukiaaa</u>](https://github.com/asukiaaa/MPU9250_asukiaaa) git hub felhasználó könyvtárával barátkoztam meg a leginkább. Egyszerű használni és viszonylag jó dokumentáció tartozik hozzá. Viszont hátranya, hogy nem paraméterezhető fel tetszés szerintire a szenzor.
+  - [<u>hideakitai</u>](https://github.com/hideakitai/MPU9250) git hub felhasználó könyvtárát sem nehéz használni, és lehetséges a szenzor felparaméterezése is. Viszont nem vettem volna észre a paraméterek állitgatásával a változásokat a szenzor adatgyüjtésén. Legfontosabb pedig hogy <b>lassabban tud adatot gyüjteni mint az asukiaaa könyvtar által létrehozott paraméterezés</b>
+  - [<u>bolderflight</u>](https://github.com/bolderflight/invensense-imu) git hub felhasználó könyvtára nagyon komplex, sok lehetőséget biztosít. Viszont nekem nem sikerült elérnem vele a szenzort, többszöri próblkozásra sem. Így nem tudok véleményt mondani róla.
 
-EN/BOOT button
+  A könyvtárakról az "Attila tapasztalatok" bekezdés alatt több is van.
 
-Arduino IDE board config leírása
+### Mikrofon
+#### Előnyök
+  - Egyszerű használni
+  - Nem kell külön könyvtár a használatához
 
-#### ESP-8266
+#### Hátrányok
+  - Nem tapasztaltam.
 
-Librarby hozzá
+#### Tapasztalat
+Egyszerű volt dolgozni vele, és eredményes.
 
-EN/BOOT button
+### ESP-32
 
-Arduino IDE board config leírása
+#### Arduino IDE board config leírása
+Nem biztos hogy le kell tölteni, de az esp32 felismeréséhez szükség van egy USB-driverre. Ez esetben [ezen a lineken](https://www.freedriverupdater.com/cp2102-driver/) le van írva, hogyan lehet letölteni.
 
-## Egyéb könyvtárak
+Ahhoz hogy lehessen ESP-32-re is programozni szükséges arduino IDE-ben egy beállítás.
+<br>Lépések:
+- <b>file</b> fül lenyitása
+- <b>Preferences</b> kiválasztása, ekkor megjelenik egy új ablak
+- az <b>Addition boards manager</b> edit textbe be kell szúrni a következőt linket: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json. Ha már lenne ott link akkor egy vesszővel el kell választani egymástól a két linket.
+
+Ezek után hogy beállítsuk a megfelelő boardra és portra a következőket kell tenni:
+- board beállítása: <b>tools -> Board -> esp32</b>, lépésekkel megjelenik egy lista a létező esp32 board tipusokkal. Ezek közül a megfelőt ki kell választani.
+- port beállítása: <b>tools -> Port</b>, ekkor megjelenik egy lista a portokkal, melybőla megfelőt ki kell választani. <b>Szükséges csatlakozni az eszközt, hogy lássuk a megfelelő portot!</b>
+
+
+#### EN/BOOT button
+- amikor programot töltesz fel rá amikor az Arduino IDE <b>Output</b> felületén a <b>connecting...</b> jelenik meg a boot gombot egy ideig lenyomva kell tartani. (Az USB port mellett lévő nem EN gomb a BOOT gomb.)
+
+#### Librarby hozzá
+- nem szükséges külön könyvtárat letölteni a programozásához
+
+## <center>Egyéb könyvtárak</center>
 
 ### MQTT Kliens
 
-Használt könytár: [EspMQTTClient](https://github.com/plapointe6/EspMQTTClient)
+Használt könytárak: 
+- [EspMQTTClient:](https://github.com/plapointe6/EspMQTTClient)
 Az **Axi** féle kódokban ez volt használva. Könnyű a használata, hatékony és eléggé jó dokumentáció tartozik hozzá.
+- [PubSubClient:](https://github.com/knolleary/pubsubclient) Az <b>Attila</b> féle kódokban ez volt használva.
 
 ### Szenzorokkal egyszerű kommunikáció (I2C)
 
@@ -88,6 +122,8 @@ Használt könyvtár: [Wire](https://www.arduino.cc/reference/en/language/functi
 Néhány esetben ez könnyebé tette egy-egy szenzor elérését I2C-n keresztül.
 
 ## Attila Tapasztalatok
+
+
 
 Ide jöhet szerintem a rizsa, amit ha akarnak elolvasnak. Lehet napló szerűség is.
 MI jött be, mi nem. Mivel foglalkoztál és mit éreztél hasznosnak...
