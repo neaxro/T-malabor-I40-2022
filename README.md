@@ -58,6 +58,7 @@ A fentebb látható diagrammoknál lehet részletesebben látni, hogy melyik sz�
 
 ### MPU-9250
 
+Elérhető a dokummentáció a szenzorhoz ezen az [oldalon](https://invensense.tdk.com/download-pdf/mpu-9250-datasheet/) keresztül.
 #### Előnyök
   - Tartalmaz gyorsulásmérőt
   - A gyorsulásmérő 4000Hz-es mintavételezésre is képes
@@ -66,13 +67,11 @@ A fentebb látható diagrammoknál lehet részletesebben látni, hogy melyik sz�
 #### Hátrányok
   - Nem tapasztaltam
 
-#### Tapasztalatok
+#### Könyvtárak
 Három különböző könyvtárat is kipróbltam, és mindegyikről más-más véleményem lett:
   - [<u>asukiaaa</u>](https://github.com/asukiaaa/MPU9250_asukiaaa) git hub felhasználó könyvtárával barátkoztam meg a leginkább. Egyszerű használni és viszonylag jó dokumentáció tartozik hozzá. Viszont hátranya, hogy nem paraméterezhető fel tetszés szerintire a szenzor.
   - [<u>hideakitai</u>](https://github.com/hideakitai/MPU9250) git hub felhasználó könyvtárát sem nehéz használni, és lehetséges a szenzor felparaméterezése is. Viszont nem vettem volna észre a paraméterek állitgatásával a változásokat a szenzor adatgyüjtésén. Legfontosabb pedig hogy <b>lassabban tud adatot gyüjteni mint az asukiaaa könyvtar által létrehozott paraméterezés</b>
   - [<u>bolderflight</u>](https://github.com/bolderflight/invensense-imu) git hub felhasználó könyvtára nagyon komplex, sok lehetőséget biztosít. Viszont nekem nem sikerült elérnem vele a szenzort, többszöri próblkozásra sem. Így nem tudok véleményt mondani róla.
-
-  A könyvtárakról az "Attila tapasztalatok" bekezdés alatt több is van.
 
 ### Mikrofon
 #### Előnyök
@@ -121,12 +120,67 @@ Az **Axi** féle kódokban ez volt használva. Könnyű a használata, hatékony
 Használt könyvtár: [Wire](https://www.arduino.cc/reference/en/language/functions/communication/wire/)
 Néhány esetben ez könnyebé tette egy-egy szenzor elérését I2C-n keresztül.
 
+## <center>Mosquitto</center>
+### Telepítése
+Az alábbi [oldalról](https://mosquitto.org/download/) kell letölteni. Telepítésnél elég végig a nextre kattintgatni, majd végül az install-ra.
+### Elinditása
+Készíteni kell egy **.conf** fájlt amit elmentesz a mosquitto telepési helyére. Tartalmazza a következőket:
+
+>listener 1883<br>
+> allow_anonymous true
+
+Ezután rendszergazdaként futtatva a parancssort el kell navigálni a mosquitto telepítési helyére és a következő utasítást kiadni, hogy elindítsuk az mqtt szerverünket:
+> mosquitto -v -c (config fájl neve amit létrehoztunk, kiterjesztéssel együtt)
+
+A felugró ablakon engedélyezzük a kapcsolatot (csak első alkalommal kell ezt megtennünk).
+
+### Csatlakozás MQTT Explorer-el
+Ehhez szükségünk van a szerver **ip címére** amit egy új parancssorban kérdezzük le az __ipconfig__ parancs kiadásával. Nekünk vagy az ***ethernet adapter ethernet*** IPv4 címe kell, amennyiben ethernet kapcsolatunk van. Vagy a ***wireless LAN adapter wi-fi*** IPv4 címe kell, ha wifi-re vagyunk csatlakozva.<br>
+A telepített MQTT Explorer megnyitva egy új **connection**-t létre hozva megadjuk a szerver nevét (mindegy mi), majd hostnak megadjuk a megszerzett IP címet. (*Felhasználó névnek és jelszónak nem kell megadni semmit!*)
+
+#### Megjegyzés: Telepíteni az MQTT Explorert a következő [oldalról](http://mqtt-explorer.com/) lehet.
+
 ## Attila Tapasztalatok
 
+### FFT
+A projekteben én a microfonnal és a rezgésmérővel foglalkoztam. Melyhez szükséges volt megértettem az FFT müködését. Mivel ezelött még nem foglalkoztam vele, több mint egy hetig eltartott. Megnéztem milyen lépések kellenek, hogy jó eredményeket kapjunk az algoritmussal. Ennek a megértéséhez ajánlom az alábbi [oldalt](https://www.nti-audio.com/en/support/know-how/fast-fourier-transform-fft). Ezek után elkezdtem keresgélni hogy milyen implementációk vannak. Két különböző megközelítést találtam:
+  - Az egyik **rekurziv függvény hívásokkal** dolgozik, melynek csak az a hátránya, hogy a rekurzió miatt lassabb lesz a végrehajtási ideje. Viszont mindenhol ezt mutatják be, tanitják, így sok informácó érhető el róla.
+  - Egy másik megközelités a **DIT (Decimation-in-time) FFT** algoritmus mely iteratívan oldja meg az aloritmust. Ennek megértéséhez az alábbi [oldalt](https://cnx.org/contents/qAa9OhlP@2.44:zmcmahhR@7/Decimation-in-time-DIT-Radix-2-FFT#fig1) ajánlom.
+
+Érdekességnek megjegyezném, hogy dolgoznak és már van is gyorsabb algoritmus mint az FFT, az úgy nevezett **SFFT (Sparse FFT)**. Viszont ezek még inkább a kutatás/fejlesztés fázisban van.
+
+### ESP32
+Ezután az esp32-vel ismerkedtem meg. A programozása az Arduino IDE-vel nem volt nehéz. Az első alkalommal viszont be kellett konfigurálni az IDE-t mely egy ideig eltartott (fentebb a Szenzorok alatti ESP32 bekezdésnél le van írva részletesen). Majd mikor kódot szerettem volna feltölteni akkor rá kellett jönnöm, hogy feltöltés alatt a boot gombot lenyomva kell tartani. A továbbiakban viszont minden szépen és jól ment.
+
+### Microphon
+Ezek után a mikrofonnal foglalkoztam. Tetszett a szenzorral való munka, mivel egyszerű volt használni és gyorsan elértem az eredményeket (adatot gyűjteni, majd azt feldolgozni). Használatához nem volt szükség külön könyvtárhoz.
+- adatgyüjtés: csak a megfelelő pin-ről kellett analogReadet használni
+- adat feldolgozás: ez alatt értem azt, hogy a begyüjtött idő tartományos jelet kellett frekvencia tartományba át alakitani, hogy a legerősebb frekvenciákat megkaphassuk. Ehhez az **arduinoFFT** könyvtárat használnom.
+
+Végül az alábbi futási időket kaptam:
+
+![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/analog_col_time.png)
+
+#### Megjegyzések:
+-  A **MajorPeaks** függvényt is az arduinoFFT könyvtár kódjából vettem, csak átalakítottam, hogy ne csak egy frekvenciát adjon vissza, hanem tetszőleges számut.
+-  A MajorPeaks függvényhez szükséges a **mintavételezési sebesség** megadása, melyet közvetlen a meghívása elött ki is számitok a következő képpen: adatgyüjtés idejét átváltom másodpercbe, majd a gyüjtött adatmennyiségét elosztom vele.
 
 
-Ide jöhet szerintem a rizsa, amit ha akarnak elolvasnak. Lehet napló szerűség is.
-MI jött be, mi nem. Mivel foglalkoztál és mit éreztél hasznosnak...
+### Mpu-9250
+Ezen szenzorral való munka tetszett a legkevésbé. Első problémám már az elérésével kezdődött. Nem tudtam, hogy a **Wire.begin()** függvénybe meg kell adjam az adat és órajel pint, mellyen keresztül az esp32 kommunikál vele. Majd 3 különböző könyvtárat is kipróbáltam mely a szenzorhoz készült (ezeket a Szenzorok alatti MPU-9250 bekezdés alatt részletezem). Melyek kisebb-nagyobb sikerrel működtek.
+#### Megjegyzések
+ **Asukiaaa** könyvtárával az alábbi futási eredményeket értem el:
+
+ ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/asukiaaa_col_time.png)
+ 
+**Hideakitai** könyvtárával pedig az alábbi futási eredményeket értem el:
+
+![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/hideakitai_col_time.png)
+ 
+**Bolderflight** könyvtárával nem tudtam elérni a szenzort, és nem sikerült megoldani ezen problémát.
+
+### Mosquitto
+### MQTT Explorer
 
 ## Axi Tapasztalatok
 
@@ -151,8 +205,6 @@ Amikor kiismertem a könyvtárat alőre csináltam egy sablonos MQTT kliens kód
 Itt történt meg az első zsákutca a projekt során. Először a **Beywise** szervert használtam főleg azért, mert sok fórumon top 3 legjobb MQTT szerver között volt illetve, mert ingyenes. Sajnos már az ismerkedés elején kibúj a szög a zsákból. Borzalmas volt az egész. Nem volt hatékony, lassú és folyamatosan lefagyott. Hostol a szerver egy webes felületet ahol lehet kezelni az egész szervert ami kecsegtetően hagzik de borzalmas az egész. Egy óra alatt nem bírtam csinálni egy olyan diagramot amin 3 adatot egyszerre meg tudtam volna jeleníteni (pedig volt rá lehetőség, tálcán kínálta a UI...) csak éppen működni nem akart szegény. Ezért **NEM AJÁNLOM A HASZNÁLATÁT**.
 
 Másik nekifutásra a konzulensünk által javasolt **mosquitto MQTT szervert** használtuk. Ez nagyon megbízható volt, gyors és robosztus meglátásom szerint. Egy hátránya volt a Beywise-hoz képest, hogy nem járt hozzá webes megjelenítő így külön kliens programot kellett használni, hogy áttekinthetően lehessen látni a topic-okat és az adatokat.
-
-##### TODO: szerver telepítése, elindítás, stb...
 
 ### Fordulatszám mérő
 
