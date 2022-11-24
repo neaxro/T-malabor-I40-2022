@@ -8,10 +8,15 @@
 
 ## Wiring Diagram
 
+Opto-kapu bekötése:<br>
 ![Opto](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/opto_wiring.png)<br>
+Hőmérő bekötése:<br>
 ![Homero](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/mlx90614_wiring.png)<br>
+Árammérő bekötése:<br>
 ![Arammero](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/arammero_wiring.png)<br>
+MPU-9250 bekötése:
 ![Mpu](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/mpu_wiring.png)<br>
+Mikrofon bekötése:<br>
 ![Mikrofon](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/mic_wiring.png)
 
 ## Szenzorok
