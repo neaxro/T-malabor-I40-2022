@@ -157,7 +157,7 @@ Ezek után a mikrofonnal foglalkoztam. Tetszett a szenzorral való munka, mivel 
 - adatgyüjtés: csak a megfelelő pin-ről kellett analogReadet használni
 - adat feldolgozás: ez alatt értem azt, hogy a begyüjtött idő tartományos jelet kellett frekvencia tartományba át alakitani, hogy a legerősebb frekvenciákat megkaphassuk. Ehhez az **arduinoFFT** könyvtárat használnom.
 
-Végül az alábbi futási időket kaptam:
+Végül az alábbi futási időket kaptam (az eredmények mikroszekundumban vannak):
 
 ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/analog_col_time.png)
 
@@ -169,11 +169,11 @@ Végül az alábbi futási időket kaptam:
 ### Mpu-9250
 Ezen szenzorral való munka tetszett a legkevésbé. Első problémám már az elérésével kezdődött. Nem tudtam, hogy a **Wire.begin()** függvénybe meg kell adjam az adat és órajel pint, mellyen keresztül az esp32 kommunikál vele. Majd 3 különböző könyvtárat is kipróbáltam mely a szenzorhoz készült (ezeket a Szenzorok alatti MPU-9250 bekezdés alatt részletezem). Melyek kisebb-nagyobb sikerrel működtek.
 #### Megjegyzések
- **Asukiaaa** könyvtárával az alábbi futási eredményeket értem el:
+ **Asukiaaa** könyvtárával az alábbi futási eredményeket értem el (az eredmények mikroszekundumban vannak):
 
  ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/asukiaaa_col_time.png)
  
-**Hideakitai** könyvtárával pedig az alábbi futási eredményeket értem el:
+**Hideakitai** könyvtárával pedig az alábbi futási eredményeket értem el (az eredmények mikroszekundumban vannak):
 
 ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/hideakitai_col_time.png)
  
