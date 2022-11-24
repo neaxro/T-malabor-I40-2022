@@ -6,11 +6,11 @@
 
 **Konzulens**: Kovács László
 
-## <center>Wiring Diagram</center>
+## Wiring Diagram
 
 TODO: Milyen összeköttetések vannak, színek szerint, stb...
 
-## <center>Szenzorok</center>
+## Szenzorok
 
 ### MLX90614
 
@@ -106,7 +106,7 @@ Ezek után hogy beállítsuk a megfelelő boardra és portra a következőket ke
 #### Librarby hozzá
 - nem szükséges külön könyvtárat letölteni a programozásához
 
-## <center>Egyéb könyvtárak</center>
+## Egyéb könyvtárak
 
 ### MQTT Kliens
 
@@ -120,7 +120,7 @@ Az **Axi** féle kódokban ez volt használva. Könnyű a használata, hatékony
 Használt könyvtár: [Wire](https://www.arduino.cc/reference/en/language/functions/communication/wire/)
 Néhány esetben ez könnyebé tette egy-egy szenzor elérését I2C-n keresztül.
 
-## <center>Mosquitto</center>
+## Mosquitto
 ### Telepítése
 Az alábbi [oldalról](https://mosquitto.org/download/) kell letölteni. Telepítésnél elég végig a nextre kattintgatni, majd végül az install-ra.
 ### Elinditása
