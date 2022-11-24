@@ -8,7 +8,11 @@
 
 ## Wiring Diagram
 
-TODO: Milyen összeköttetések vannak, színek szerint, stb...
+![Opto](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/opto_wiring.png)<br>
+![Homero](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/mlx90614_wiring.png)<br>
+![Arammero](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/arammero_wiring.png)<br>
+![Mpu](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/mpu_wiring.png)<br>
+![Mikrofon](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/mic_wiring.png)
 
 ## Szenzorok
 
