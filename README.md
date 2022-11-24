@@ -147,7 +147,7 @@ A projekteben én a microfonnal és a rezgésmérővel foglalkoztam. Melyhez sz�
   - Az egyik **rekurziv függvény hívásokkal** dolgozik, melynek csak az a hátránya, hogy a rekurzió miatt lassabb lesz a végrehajtási ideje. Viszont mindenhol ezt mutatják be, tanitják, így sok informácó érhető el róla.
   - Egy másik megközelités a **DIT (Decimation-in-time) FFT** algoritmus mely iteratívan oldja meg az aloritmust. Ennek megértéséhez az alábbi [oldalt](https://cnx.org/contents/qAa9OhlP@2.44:zmcmahhR@7/Decimation-in-time-DIT-Radix-2-FFT#fig1) ajánlom.
 
-Érdekességnek megjegyezném, hogy dolgoznak és már van is gyorsabb algoritmus mint az FFT, az úgy nevezett **SFFT (Sparse FFT)**. Viszont ezek még inkább a kutatás/fejlesztés fázisban van.
+Érdekességnek megjegyezném, hogy már fejlesztés alatt van egy gyorsabb algoritmus mint az FFT, ez az úgy nevezett **SFFT (Sparse FFT)**.
 
 ### ESP32
 Ezután az esp32-vel ismerkedtem meg. A programozása az Arduino IDE-vel nem volt nehéz. Az első alkalommal viszont be kellett konfigurálni az IDE-t mely egy ideig eltartott (fentebb a Szenzorok alatti ESP32 bekezdésnél le van írva részletesen). Majd mikor kódot szerettem volna feltölteni akkor rá kellett jönnöm, hogy feltöltés alatt a boot gombot lenyomva kell tartani. A továbbiakban viszont minden szépen és jól ment.
