@@ -96,7 +96,7 @@ void fft(){
 
     //sampling frequency calculation
     double CollectTimeInSec = CollectingTimeD / 1000000.0;  // convert to secundum
-    int sampling_feq = 4096.0 / CollectTimeInSec;           // result is around 5300Hz
+    double sampling_feq = 4096.0 / CollectTimeInSec;           // result is around 5300Hz
 
     // collect the highest peaks
     MajorPeaks(samples_Re, SAMPLE_QUANTITY, sampling_feq, results_Hz);
