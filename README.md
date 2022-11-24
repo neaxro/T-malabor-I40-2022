@@ -150,7 +150,20 @@ A projekteben én a microfonnal és a rezgésmérővel foglalkoztam. Melyhez sz�
 Érdekességnek megjegyezném, hogy már fejlesztés alatt van egy gyorsabb algoritmus mint az FFT, ez az úgy nevezett **SFFT (Sparse FFT)**.
 
 ### ESP32
+#### Ismerkedés
 Ezután az esp32-vel ismerkedtem meg. A programozása az Arduino IDE-vel nem volt nehéz. Az első alkalommal viszont be kellett konfigurálni az IDE-t mely egy ideig eltartott (fentebb a Szenzorok alatti ESP32 bekezdésnél le van írva részletesen). Majd mikor kódot szerettem volna feltölteni akkor rá kellett jönnöm, hogy feltöltés alatt a boot gombot lenyomva kell tartani. A továbbiakban viszont minden szépen és jól ment.
+
+#### Rendszer felépítése
+A végső rendszert az alábbi megfontolások miatt alakítottuk ki:
+- Az FFT algoritmushoz kettő az n.-en mennyiségű adat kell. Mivel a maximálisan elérhető mintavételezés frekvencia 4kHz ezért **két 4096 double**-t tartalmazó tömb szükséges (egyik a valós a másik az imagináris értékhez), hogy másodpercenként legyen eredményünk.
+- Az esp32 statikus memória területébe **csak 13566 double**-t tartalmazó tömb fér bele, **és ekkor más kódrészlet nem is fér bele!** Így nem tudtuk megoldani azt, hogy kétszálon futtassuk a programot (egy adatgyüjtő szálat szerettem volna, meg egy adat feldolgozót), mivel szálanként kellett volna két darab 4096 double-t tartalmazó tömb.
+- A ez elöző bekezdésben emlitett probléma miatt a mikrofont és az MPU-9250 szenzor adatait feldolgozó kódot sem tudtuk egy esp32-re rátenni, hanem szükség volt két különbözőre.
+- A harmadik esp32-re pedig azért van szükség, mert a forgási sebességet mérő **optokapu érzékeny az időbeli késleltetésre** a számítások végett. Mivel pedig a elöző két esp32-n is időérzékeny műveleteket végzünk nem tudtuk egyikre sem rátenni.
+
+Összességében tehát 3 db esp32-re volt szükségünk, amiken az alábbi szenzorok vannak:<br>
+ 1. gyorsulásmérő (MPU-9250-en van rajta)
+ 2. mikrofon
+ 3. opto kapú, hőmérő (MLX90614), árammérő
 
 ### Mikrofon
 Ezek után a mikrofonnal foglalkoztam. Tetszett a szenzorral való munka, mivel egyszerű volt használni és gyorsan elértem az eredményeket (adatot gyűjteni, majd azt feldolgozni). Használatához nem volt szükség külön könyvtárhoz.
@@ -167,17 +180,18 @@ Végül az alábbi futási időket kaptam (az eredmények mikroszekundumban vann
 
 
 ### Mpu-9250
-Ezen szenzorral való munka tetszett a legkevésbé. Első problémám már az elérésével kezdődött. Nem tudtam, hogy a **Wire.begin()** függvénybe meg kell adjam az adat és órajel pint, mellyen keresztül az esp32 kommunikál vele. Majd 3 különböző könyvtárat is kipróbáltam mely a szenzorhoz készült (ezeket a Szenzorok alatti MPU-9250 bekezdés alatt részletezem). Melyek kisebb-nagyobb sikerrel működtek.
+Ezen szenzorral való munka tetszett a legkevésbé. Első problémám már az elérésével kezdődött. Nem tudtam, hogy a **Wire.begin()** függvénybe meg kell adjam az adat és órajel pint, mellyen keresztül az esp32 kommunikál vele. Majd 3 különböző könyvtárat is kipróbáltam mely a szenzorhoz készült (ezeket a Szenzorok alatti MPU-9250 bekezdés alatt részletezem). Melyek kisebb-nagyobb sikerrel működtek. Viszont egyik könyvtárral sem sikerült elérnem az elviekben maximálisan elérhető 4000Hz-es mintavételezést.
 #### Megjegyzések
- **Asukiaaa** könyvtárával az alábbi futási eredményeket értem el (az eredmények mikroszekundumban vannak):
+ - A mikrofonnál lévő megjegyzések ide is vonatkoznak. 
+ - **Asukiaaa** könyvtárával az alábbi futási eredményeket értem el (az eredmények mikroszekundumban vannak):
 
  ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/asukiaaa_col_time.png)
  
-**Hideakitai** könyvtárával pedig az alábbi futási eredményeket értem el (az eredmények mikroszekundumban vannak):
+- **Hideakitai** könyvtárával pedig az alábbi futási eredményeket értem el (az eredmények mikroszekundumban vannak):
 
 ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/hideakitai_col_time.png)
  
-**Bolderflight** könyvtárával nem tudtam elérni a szenzort, és nem sikerült megoldani ezen problémát.
+- **Bolderflight** könyvtárával nem tudtam elérni a szenzort, és nem sikerült megoldani ezen problémát.
 
 ### Wifi-n keresztüli komunikáció
 Erre a beépített **Wifi** könyvtárat használtam. Problémám az csak a wifi-re való csatlakozással volt, mert kollégiumban nem lehet új eszközzel regisztráció nélkül rácsatlakozni a hálózatra. Miután viszont saját mobil neten keresztül próbálkoztam hiba nélkül ment.
