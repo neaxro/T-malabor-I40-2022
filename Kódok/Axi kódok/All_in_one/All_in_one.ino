@@ -25,7 +25,7 @@ EspMQTTClient client(
 #define MQTT_TOPIC_L3 "ESP/ARAM/L3"  // Az a csatorna/topic ahova kuldi az adatot
 #define MQTT_TOPIC_C "ESP/Homerseklet/Celsius"                    // Az a csatorna/topic ahova kuldi az adatot
 #define MQTT_TOPIC_F "ESP/Homerseklet/Fahrenheit"                  // Az a csatorna/topic ahova kuldi az adatot
-#define OPTO_PIN D5           // Opto pinje
+#define OPTO_PIN 21           // Opto pinje
 #define TIMEOUT 0.4           // Hany masodperc semmitteves utan timeout-oljon
 #define FINOM_EJTES true      // Ha timeout-ol a fordulatszam mero akkor fokozatosan eljtse-e a jelet vagy sem
 #define FINOM_SZORZO 0.4      // Ha finom ejtest alkalmazunk, akkor milyen gyorsan csengjen le a jel
@@ -141,7 +141,7 @@ void setup() {
     0,                  /* Priority of the task -> higher number higher priority*/
     &Task1,             /* Which task handle it. */
     0);                 /* Core where the task should run */
-  }
+  
   elotte = micros();
 
   // Init vege
@@ -183,7 +183,7 @@ void loop() {
   //delay(100);
 }
 
-void loopForTemperature(void * pvParameters){
+void loopForOpto(void * pvParameters){
   //creating an infinite loop so it will work as the main loop function
   for(;;) {
     // MQTT-hez
