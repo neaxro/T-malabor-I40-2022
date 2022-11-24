@@ -159,7 +159,7 @@ Ezek után a mikrofonnal foglalkoztam. Tetszett a szenzorral való munka, mivel 
 
 Végül az alábbi futási időket kaptam:
 
-<center> ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/analog_col_time.png) </center>
+![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/analog_col_time.png)
 
 #### Megjegyzések:
 -  A **MajorPeaks** függvényt is az arduinoFFT könyvtár kódjából vettem, csak átalakítottam, hogy ne csak egy frekvenciát adjon vissza, hanem tetszőleges számut.
@@ -171,11 +171,11 @@ Ezen szenzorral való munka tetszett a legkevésbé. Első problémám már az e
 #### Megjegyzések
  **Asukiaaa** könyvtárával az alábbi futási eredményeket értem el:
 
- <center> ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/asukiaaa_col_time.png) </center>
+ ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/asukiaaa_col_time.png)
  
 **Hideakitai** könyvtárával pedig az alábbi futási eredményeket értem el:
 
-<center> ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/hideakitai_col_time.png) </center>
+![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/hideakitai_col_time.png)
  
 **Bolderflight** könyvtárával nem tudtam elérni a szenzort, és nem sikerült megoldani ezen problémát.
 
