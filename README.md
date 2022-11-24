@@ -152,14 +152,14 @@ A projekteben én a microfonnal és a rezgésmérővel foglalkoztam. Melyhez sz�
 ### ESP32
 Ezután az esp32-vel ismerkedtem meg. A programozása az Arduino IDE-vel nem volt nehéz. Az első alkalommal viszont be kellett konfigurálni az IDE-t mely egy ideig eltartott (fentebb a Szenzorok alatti ESP32 bekezdésnél le van írva részletesen). Majd mikor kódot szerettem volna feltölteni akkor rá kellett jönnöm, hogy feltöltés alatt a boot gombot lenyomva kell tartani. A továbbiakban viszont minden szépen és jól ment.
 
-### Microphon
+### Mikrofon
 Ezek után a mikrofonnal foglalkoztam. Tetszett a szenzorral való munka, mivel egyszerű volt használni és gyorsan elértem az eredményeket (adatot gyűjteni, majd azt feldolgozni). Használatához nem volt szükség külön könyvtárhoz.
 - adatgyüjtés: csak a megfelelő pin-ről kellett analogReadet használni
 - adat feldolgozás: ez alatt értem azt, hogy a begyüjtött idő tartományos jelet kellett frekvencia tartományba át alakitani, hogy a legerősebb frekvenciákat megkaphassuk. Ehhez az **arduinoFFT** könyvtárat használnom.
 
 Végül az alábbi futási időket kaptam:
 
-![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/analog_col_time.png)
+<center>![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/analog_col_time.png)</center>
 
 #### Megjegyzések:
 -  A **MajorPeaks** függvényt is az arduinoFFT könyvtár kódjából vettem, csak átalakítottam, hogy ne csak egy frekvenciát adjon vissza, hanem tetszőleges számut.
@@ -171,16 +171,24 @@ Ezen szenzorral való munka tetszett a legkevésbé. Első problémám már az e
 #### Megjegyzések
  **Asukiaaa** könyvtárával az alábbi futási eredményeket értem el:
 
- ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/asukiaaa_col_time.png)
+ <center>![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/asukiaaa_col_time.png)</center>
  
 **Hideakitai** könyvtárával pedig az alábbi futási eredményeket értem el:
 
-![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/hideakitai_col_time.png)
+<center>![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/hideakitai_col_time.png)</center>
  
 **Bolderflight** könyvtárával nem tudtam elérni a szenzort, és nem sikerült megoldani ezen problémát.
 
+### Wifi-n keresztüli komunikáció
+Erre a beépített **Wifi** könyvtárat használtam. Problémám az csak a wifi-re való csatlakozással volt, mert kollégiumban nem lehet új eszközzel regisztráció nélkül rácsatlakozni a hálózatra. Miután viszont saját mobil neten keresztül próbálkoztam hiba nélkül ment.
+
 ### Mosquitto
+A konzulens ajánlására próbáltam ki ezt az MQTT szervert. Nekem tetszett a mosquitto, habár nincs grafikus megjelenítése, csak parancssori.<br>
+Az esp32 kódjában én a **PubSubClient** könyvtárat használtam, melyet egyszerüen tudtam kezelni.
+
 ### MQTT Explorer
+Habár a konzulens nekünk  a **NodeRed** használatát javasolta, én emelett döntöttem. Az Explorert egyszerüen tudtam kezelni és nem láttam szükségét a másiknak, mivel az MQTT szerver a lényeg.
+
 
 ## Axi Tapasztalatok
 
