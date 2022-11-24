@@ -1,5 +1,4 @@
-#include <WiFi.h>              //built in library to cconnect via Wifi
-#include <Wire.h>              //biult in library to use iic
+#include <WiFi.h>              //built in library to connect via Wifi
 #include <PubSubClient.h>      //MQTT lib (https://github.com/knolleary/pubsubclient)
 #include <arduinoFFT.h>        //FFT lib (https://github.com/kosme/arduinoFFT) 
 
@@ -97,7 +96,7 @@ void fft(){
 
     //sampling frequency calculation
     double CollectTimeInSec = CollectingTimeD / 1000000.0;  // convert to secundum
-    int sampling_feq = 4096.0 / CollectTimeInSec;           // result is around 5300Hz
+    double sampling_feq = 4096.0 / CollectTimeInSec;           // result is around 5300Hz
 
     // collect the highest peaks
     MajorPeaks(samples_Re, SAMPLE_QUANTITY, sampling_feq, results_Hz);
