@@ -78,7 +78,7 @@ Elérhető a dokummentáció a szenzorhoz ezen az [oldalon](https://invensense.t
 
 #### Könyvtárak
 Három különböző könyvtárat is kipróbltam, és mindegyikről más-más véleményem lett:
-  - [<u>asukiaaa</u>](https://github.com/asukiaaa/MPU9250_asukiaaa) git hub felhasználó könyvtárával barátkoztam meg a leginkább. Egyszerű használni és viszonylag jó dokumentáció tartozik hozzá. Viszont hátranya, hogy nem paraméterezhető fel tetszés szerintire a szenzor.
+  - [<u>asukiaaa</u>](https://github.com/asukiaaa/MPU9250_asukiaaa) git hub felhasználó könyvtárával barátkoztam meg a leginkább. Egyszerű használni és viszonylag jó dokumentáció tartozik hozzá. Viszont hátranya, hogy nem paraméterezhető fel tetszés szerint a szenzor.
   - [<u>hideakitai</u>](https://github.com/hideakitai/MPU9250) git hub felhasználó könyvtárát sem nehéz használni, és lehetséges a szenzor felparaméterezése is. Viszont nem vettem volna észre a paraméterek állitgatásával a változásokat a szenzor adatgyüjtésén. Legfontosabb pedig hogy <b>lassabban tud adatot gyüjteni mint az asukiaaa könyvtar által létrehozott paraméterezés</b>
   - [<u>bolderflight</u>](https://github.com/bolderflight/invensense-imu) git hub felhasználó könyvtára nagyon komplex, sok lehetőséget biztosít. Viszont nekem nem sikerült elérnem vele a szenzort, többszöri próblkozásra sem. Így nem tudok véleményt mondani róla.
 
@@ -102,18 +102,18 @@ Ahhoz hogy lehessen ESP-32-re is programozni szükséges arduino IDE-ben egy be�
 <br>Lépések:
 - <b>file</b> fül lenyitása
 - <b>Preferences</b> kiválasztása, ekkor megjelenik egy új ablak
-- az <b>Addition boards manager</b> edit textbe be kell szúrni a következőt linket: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json. Ha már lenne ott link akkor egy vesszővel el kell választani egymástól a két linket.
+- az <b>Addition boards manager</b> edit textbe be kell szúrni a következő linket: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json. Ha már lenne ott egyéb link, akkor egy vesszővel el kell választani egymástól a két linket.
 
 Ezek után hogy beállítsuk a megfelelő boardra és portra a következőket kell tenni:
-- board beállítása: <b>tools -> Board -> esp32</b>, lépésekkel megjelenik egy lista a létező esp32 board tipusokkal. Ezek közül a megfelőt ki kell választani.
-- port beállítása: <b>tools -> Port</b>, ekkor megjelenik egy lista a portokkal, melybőla megfelőt ki kell választani. <b>Szükséges csatlakozni az eszközt, hogy lássuk a megfelelő portot!</b>
+- board beállítása: <b>tools -> Board -> esp32</b>, lépésekkel megjelenik egy lista a létező esp32 board típusokkal. Ezek közül a megfelőt ki kell választani.
+- port beállítása: <b>tools -> Port</b>, ekkor megjelenik egy lista a portokkal, melyből a megfelőt ki kell választani. <b>Szükséges csatlakozntatni az eszközt, hogy lássuk a megfelelő portot!</b>
 
 
 #### EN/BOOT button
-- amikor programot töltesz fel rá amikor az Arduino IDE <b>Output</b> felületén a <b>connecting...</b> jelenik meg a boot gombot egy ideig lenyomva kell tartani. (Az USB port mellett lévő nem EN gomb a BOOT gomb.)
+- Amikor programot töltesz fel az esp32-re az Arduino IDE <b>Output</b> felületén a <b>connecting...</b> jelenik meg, akkor a boot gombot egy ideig lenyomva kell tartani. (Az USB port mellett lévő nem EN gomb a BOOT gomb.)
 
 #### Librarby hozzá
-- nem szükséges külön könyvtárat letölteni a programozásához
+- Nem szükséges külön könyvtárat letölteni a programozásához.
 
 ## Egyéb könyvtárak
 
@@ -134,7 +134,6 @@ Néhány esetben ez könnyebé tette egy-egy szenzor elérését I2C-n keresztü
 Az alábbi [oldalról](https://mosquitto.org/download/) kell letölteni. Telepítésnél elég végig a nextre kattintgatni, majd végül az install-ra.
 ### Elinditása
 Készíteni kell egy **.conf** fájlt amit elmentesz a mosquitto telepési helyére. Tartalmazza a következőket:
-
 >listener 1883<br>
 > allow_anonymous true
 
@@ -144,16 +143,16 @@ Ezután rendszergazdaként futtatva a parancssort el kell navigálni a mosquitto
 A felugró ablakon engedélyezzük a kapcsolatot (csak első alkalommal kell ezt megtennünk).
 
 ### Csatlakozás MQTT Explorer-el
-Ehhez szükségünk van a szerver **ip címére** amit egy új parancssorban kérdezzük le az __ipconfig__ parancs kiadásával. Nekünk vagy az ***ethernet adapter ethernet*** IPv4 címe kell, amennyiben ethernet kapcsolatunk van. Vagy a ***wireless LAN adapter wi-fi*** IPv4 címe kell, ha wifi-re vagyunk csatlakozva.<br>
-A telepített MQTT Explorer megnyitva egy új **connection**-t létre hozva megadjuk a szerver nevét (mindegy mi), majd hostnak megadjuk a megszerzett IP címet. (*Felhasználó névnek és jelszónak nem kell megadni semmit!*)
+Ehhez szükségünk van a szerver **ip címére** amit egy új parancssorban kérdezzük le az **ipconfig** parancs kiadásával. Nekünk vagy az ***ethernet adapter ethernet*** IPv4 címe kell, amennyiben ethernet kapcsolatunk van. Vagy a ***wireless LAN adapter wi-fi*** IPv4 címe kell, ha wifi-re vagyunk csatlakozva.<br>
+A telepített MQTT Explorer-t megnyitva egy új **connection**-t létre hozva adjuk meg a szerver nevét (mindegy mi), majd hostnak adjuk meg a megszerzett IP címet. (*Felhasználó névnek és jelszónak nem kell megadni semmit!*)
 
 #### Megjegyzés: Telepíteni az MQTT Explorert a következő [oldalról](http://mqtt-explorer.com/) lehet.
 
 ## Attila Tapasztalatok
 
 ### FFT
-A projekteben én a microfonnal és a rezgésmérővel foglalkoztam. Melyhez szükséges volt megértettem az FFT müködését. Mivel ezelött még nem foglalkoztam vele, több mint egy hetig eltartott. Megnéztem milyen lépések kellenek, hogy jó eredményeket kapjunk az algoritmussal. Ennek a megértéséhez ajánlom az alábbi [oldalt](https://www.nti-audio.com/en/support/know-how/fast-fourier-transform-fft). Ezek után elkezdtem keresgélni hogy milyen implementációk vannak. Két különböző megközelítést találtam:
-  - Az egyik **rekurziv függvény hívásokkal** dolgozik, melynek csak az a hátránya, hogy a rekurzió miatt lassabb lesz a végrehajtási ideje. Viszont mindenhol ezt mutatják be, tanitják, így sok informácó érhető el róla.
+A projekteben én a microfonnal és a rezgésmérővel foglalkoztam. Melyhez szükséges volt megértettem az FFT müködését. Mivel ezelött még nem foglalkoztam vele, több mint egy hetig eltartott a megértése. Megnéztem milyen lépések kellenek, hogy jó eredményeket kapjunk az algoritmussal. Ennek a megértéséhez ajánlom az alábbi [oldalt](https://www.nti-audio.com/en/support/know-how/fast-fourier-transform-fft). Ezek után elkezdtem keresgélni hogy milyen implementációk vannak. Két különböző megközelítést találtam:
+  - Az egyik **rekurziv függvény hívásokkal** dolgozik, melynek csak az a hátránya, hogy a rekurzió miatt lassabb lesz a végrehajtás ideje. Viszont mindenhol ezt mutatják be, tanitják, így sok informácó érhető el róla.
   - Egy másik megközelités a **DIT (Decimation-in-time) FFT** algoritmus mely iteratívan oldja meg az aloritmust. Ennek megértéséhez az alábbi [oldalt](https://cnx.org/contents/qAa9OhlP@2.44:zmcmahhR@7/Decimation-in-time-DIT-Radix-2-FFT#fig1) ajánlom.
 
 Érdekességnek megjegyezném, hogy már fejlesztés alatt van egy gyorsabb algoritmus mint az FFT, ez az úgy nevezett **SFFT (Sparse FFT)**.
@@ -163,33 +162,33 @@ A projekteben én a microfonnal és a rezgésmérővel foglalkoztam. Melyhez sz�
 Ezután az esp32-vel ismerkedtem meg. A programozása az Arduino IDE-vel nem volt nehéz. Az első alkalommal viszont be kellett konfigurálni az IDE-t mely egy ideig eltartott (fentebb a Szenzorok alatti ESP32 bekezdésnél le van írva részletesen). Majd mikor kódot szerettem volna feltölteni akkor rá kellett jönnöm, hogy feltöltés alatt a boot gombot lenyomva kell tartani. A továbbiakban viszont minden szépen és jól ment.
 
 #### Rendszer felépítése
-A végső rendszert az alábbi megfontolások miatt alakítottuk ki:
+A végső rendszert az alábbi megfontolások végett alakítottuk ki:
 - Az FFT algoritmushoz kettő az n.-en mennyiségű adat kell. Mivel a maximálisan elérhető mintavételezés frekvencia 4kHz ezért **két 4096 double**-t tartalmazó tömb szükséges (egyik a valós a másik az imagináris értékhez), hogy másodpercenként legyen eredményünk.
-- Az esp32 statikus memória területébe **csak 13566 double**-t tartalmazó tömb fér bele, **és ekkor más kódrészlet nem is fér bele!** Így nem tudtuk megoldani azt, hogy kétszálon futtassuk a programot (egy adatgyüjtő szálat szerettem volna, meg egy adat feldolgozót), mivel szálanként kellett volna két darab 4096 double-t tartalmazó tömb.
-- A ez elöző bekezdésben emlitett probléma miatt a mikrofont és az MPU-9250 szenzor adatait feldolgozó kódot sem tudtuk egy esp32-re rátenni, hanem szükség volt két különbözőre.
+- Az esp32 statikus memória területébe **csak 13566 double**-t tartalmazó tömb fér, **és ekkor más kódrészlettől még nincs is szó!** Így nem tudtuk megoldani azt, hogy kétszálon futtassuk a programot (egy adatgyüjtő szálat szerettem volna, meg egy adat feldolgozót), mivel szálanként kellett volna két darab 4096 double-t tartalmazó tömb.
+- Az elöző bekezdésben emlitett probléma miatt a mikrofont és az MPU-9250 szenzor adatait feldolgozó kódot sem tudtuk egy esp32-re rátenni, hanem szükség volt két különbözőre.
 - A harmadik esp32-re pedig azért van szükség, mert a forgási sebességet mérő **optokapu érzékeny az időbeli késleltetésre** a számítások végett. Mivel pedig a elöző két esp32-n is időérzékeny műveleteket végzünk nem tudtuk egyikre sem rátenni.
 
-Összességében tehát 3 db esp32-re volt szükségünk, amiken az alábbi szenzorok vannak:<br>
+Összességében tehát 3 db esp32-re volt szükségünk, amikre az alábbi szenzorokat raktuk:<br>
  1. gyorsulásmérő (MPU-9250-en van rajta)
  2. mikrofon
- 3. opto kapú, hőmérő (MLX90614), árammérő
+ 3. opto kapu, hőmérő (MLX90614), árammérő
 
 ### Mikrofon
-Ezek után a mikrofonnal foglalkoztam. Tetszett a szenzorral való munka, mivel egyszerű volt használni és gyorsan elértem az eredményeket (adatot gyűjteni, majd azt feldolgozni). Használatához nem volt szükség külön könyvtárhoz.
+Ezek után a mikrofonnal foglalkoztam. Tetszett a szenzorral való munka, mivel egyszerű volt használni és gyorsan elértem az eredményeket (adatot gyűjteni, majd azt feldolgozni). Használatához nem volt szükségem külön könyvtárra.
 - adatgyüjtés: csak a megfelelő pin-ről kellett analogReadet használni
-- adat feldolgozás: ez alatt értem azt, hogy a begyüjtött idő tartományos jelet kellett frekvencia tartományba át alakitani, hogy a legerősebb frekvenciákat megkaphassuk. Ehhez az **arduinoFFT** könyvtárat használnom.
+- adat feldolgozás: ez alatt értem azt, hogy a begyüjtött idő tartományos jelet kellett frekvencia tartományba át alakitani, hogy a legdominánsabb frekvenciákat megkaphassuk. Ehhez az **arduinoFFT** könyvtárat használtam.
 
 Végül az alábbi futási időket kaptam (az eredmények mikroszekundumban vannak):
 
 ![Eredmények](https://github.com/neaxro/T-malabor-I40-2022/blob/main/K%C3%A9pek/analog_col_time.png)
 
 #### Megjegyzések:
--  A **MajorPeaks** függvényt is az arduinoFFT könyvtár kódjából vettem, csak átalakítottam, hogy ne csak egy frekvenciát adjon vissza, hanem tetszőleges számut.
--  A MajorPeaks függvényhez szükséges a **mintavételezési sebesség** megadása, melyet közvetlen a meghívása elött ki is számitok a következő képpen: adatgyüjtés idejét átváltom másodpercbe, majd a gyüjtött adatmennyiségét elosztom vele.
+-  A **MajorPeaks** függvényt is az arduinoFFT könyvtár kódjából vettem, csak átalakítottam, hogy ne csak egy frekvenciát adjon vissza, hanem tetszőleges számút.
+-  A MajorPeaks függvényhez szükséges a **mintavételezési sebesség** megadása, melyet közvetlen a meghívása elött ki is számitok a következőképpen: az adatgyüjtés idejét átváltom másodpercbe, majd a gyüjtött adatmennyiségét elosztom ezzel az idővel.
 
 
 ### Mpu-9250
-Ezen szenzorral való munka tetszett a legkevésbé. Első problémám már az elérésével kezdődött. Nem tudtam, hogy a **Wire.begin()** függvénybe meg kell adjam az adat és órajel pint, mellyen keresztül az esp32 kommunikál vele. Majd 3 különböző könyvtárat is kipróbáltam mely a szenzorhoz készült (ezeket a Szenzorok alatti MPU-9250 bekezdés alatt részletezem). Melyek kisebb-nagyobb sikerrel működtek. Viszont egyik könyvtárral sem sikerült elérnem az elviekben maximálisan elérhető 4000Hz-es mintavételezést.
+Ezen szenzorral való munka tetszett a legkevésbé. Első problémám már az elérésével kezdődött. Nem tudtam, hogy a **Wire.begin()** függvénybe meg kell adjam az adat és órajel pint, mellyen keresztül az esp32 a szenzorral kommunikál. Majd 3 különböző könyvtárat is kipróbáltam, mely a szenzorhoz készült (ezeket a Szenzorok alatti MPU-9250 bekezdés alatt részletezem). Melyek kisebb-nagyobb sikerrel működtek. Viszont egyik könyvtárral sem sikerült elérnem az elviekben maximálisan elérhető 4000Hz-es mintavételezést.
 #### Megjegyzések
  - A mikrofonnál lévő megjegyzések ide is vonatkoznak. 
  - **Asukiaaa** könyvtárával az alábbi futási eredményeket értem el (az eredmények mikroszekundumban vannak):
@@ -203,7 +202,7 @@ Ezen szenzorral való munka tetszett a legkevésbé. Első problémám már az e
 - **Bolderflight** könyvtárával nem tudtam elérni a szenzort, és nem sikerült megoldani ezen problémát.
 
 ### Wifi-n keresztüli komunikáció
-Erre a beépített **Wifi** könyvtárat használtam. Problémám az csak a wifi-re való csatlakozással volt, mert kollégiumban nem lehet új eszközzel regisztráció nélkül rácsatlakozni a hálózatra. Miután viszont saját mobil neten keresztül próbálkoztam hiba nélkül ment.
+Erre a beépített **Wifi** könyvtárat használtam. Problémám az csak a wifi-re való csatlakozással volt, mert kollégiumban nem lehet új eszközzel regisztráció nélkül rácsatlakozni a hálózatra. Miután viszont saját mobilneten keresztül próbálkoztam hiba nélkül ment.
 
 ### Mosquitto
 A konzulens ajánlására próbáltam ki ezt az MQTT szervert. Nekem tetszett a mosquitto, habár nincs grafikus megjelenítése, csak parancssori.<br>
