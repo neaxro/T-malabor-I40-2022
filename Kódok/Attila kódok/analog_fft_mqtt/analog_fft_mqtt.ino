@@ -1,5 +1,4 @@
-#include <WiFi.h>              //built in library to cconnect via Wifi
-#include <Wire.h>              //biult in library to use iic
+#include <WiFi.h>              //built in library to connect via Wifi
 #include <PubSubClient.h>      //MQTT lib (https://github.com/knolleary/pubsubclient)
 #include <arduinoFFT.h>        //FFT lib (https://github.com/kosme/arduinoFFT) 
 
