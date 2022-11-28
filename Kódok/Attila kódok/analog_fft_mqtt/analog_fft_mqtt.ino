@@ -27,9 +27,9 @@ arduinoFFT FFT = arduinoFFT();          // FTT set up
 //--------------------------------------|Can be setted|-----------------------------------------------------------------------------------------
 #define MIC_TOPIC "topic/microphon"     //SET: to the topic where MQTT server will publish
 
-IPAddress mqttServer(192,168,43,74);    //SET: to the mqtt server ip address
-const char* SSID = "Nemes";             //SET: to the wifi name
-const char* PWD = "nincsen123";         //SET: to the wifi password
+IPAddress mqttServer(172,22,0,79);    //SET: to the mqtt server ip address
+const char* SSID = "I40TK-office";             //SET: to the wifi name
+const char* PWD = "Ipar4Ir0d4";         //SET: to the wifi password
 
 //--------------------------------------|Should not change|-------------------------------------------------------------------------------------
 #define MQTT_PORT 1883                   // will need for MQTT connection port set 
@@ -125,6 +125,7 @@ void sendMajorPeaks(){
     }
   }
 
+  Serial.println(msg_out);
   //sending the message
   if (! client.publish(MIC_TOPIC, msg_out.c_str())) {
     Serial.println("Failed");
