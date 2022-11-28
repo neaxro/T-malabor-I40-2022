@@ -29,7 +29,7 @@ arduinoFFT FFT = arduinoFFT();          // FTT set up
 
 IPAddress mqttServer(172,22,0,79);    //SET: to the mqtt server ip address
 const char* SSID = "I40TK-office";             //SET: to the wifi name
-const char* PWD = "Ipar4Ir0d4";         //SET: to the wifi password
+const char* PWD = "";         //SET: to the wifi password
 
 //--------------------------------------|Should not change|-------------------------------------------------------------------------------------
 #define MQTT_PORT 1883                   // will need for MQTT connection port set 
