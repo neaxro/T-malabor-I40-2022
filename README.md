@@ -68,6 +68,7 @@ A fentebb látható diagrammoknál lehet részletesebben látni, hogy melyik sz�
 ### MPU-9250
 
 Elérhető a dokummentáció a szenzorhoz ezen az [oldalon](https://invensense.tdk.com/download-pdf/mpu-9250-datasheet/) keresztül.
+A regiszter adatlap pedig ezen az [oldalon](https://invensense.tdk.com/wp-content/uploads/2015/02/RM-MPU-9250A-00-v1.6.pdf) érhető el.
 #### Előnyök
   - Tartalmaz gyorsulásmérőt
   - A gyorsulásmérő 4000Hz-es mintavételezésre is képes
